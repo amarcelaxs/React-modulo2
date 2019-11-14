@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Repository } from './styles';
 //foi instalando o pacote proptype e  axios
+//instalando o pacote momento para mudar a informação antes de chegar no handle
 const CompareList = ({repositories}) => (
   <Container>
     {repositories.map(repository => (
@@ -23,7 +24,7 @@ const CompareList = ({repositories}) => (
         {repository.open_issues_count}<small>issues</small>
         </li>
         <li>
-        {repository.pushed_at}<small>last commit</small>
+        {repository.lastCommit}<small>last commit</small>
         </li>
       </ul>
     </ Repository>
