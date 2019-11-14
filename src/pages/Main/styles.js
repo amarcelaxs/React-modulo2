@@ -21,7 +21,10 @@ export const Form = styled.form`
       height:55px;
       padding:0 20px;
       background:#fff;
-      border:0;
+
+      /*recebendo uma função com o unico parametro criando um if  else e c olocando borda
+      vermelha caso n tenha repositorio*/
+      border:${props => (props.withError ?  '2px solid #f00' : 0)};
       font-size:18px;
       color:#444;
       border-radius:3px;

@@ -12,6 +12,7 @@ import  CompareList from '../../components/CompareList';
 export default class Main extends Component {
   //state quando as mudanças reflitas no render
   state = {
+    repositoryError: false,
     RepositoryInput:'',
     repositories: [],
   };
@@ -24,36 +25,34 @@ export default class Main extends Component {
     try {
 
       //criação do dois dias atras 
+
+      //a iformação ja tem que chegar no handle formatada
       const {data: repository} = await  api.get(`/repos/${this.state.repositoryInput}`);
-      
+
       repository.lastCommit = moment(repository.pushed_at).fromNow();
-
-
-
       this.setState({
         repositoryInput: '',
         repositories: [... this.state.repositories, repository],
-      })
+        repositoryError:false,
+       
+      });
     }catch (err){
-      console.log(err);
-        
+      //configurando o erro caso o repository não exista
+      this.setState({repositoryError: true });
     }
-
-
-
-
 
   }
   render(){
     return(
       <Container>
       <img src={logo} alt="Github Compare" />
-      <Form onSubmit={this.handleAddRepository}>
+      <Form withError={this.state.repositoryError} onSubmit={this.handleAddRepository}>
         <input 
         type="text" 
         placeholder="usuario/repositorio" 
         value={this.state.repositoryInput}
-        //evento no js disparado toda vez que tem acao ao input
+        //linha 49 form passando propriedade de error props with error
+       //evento no js disparado toda vez que tem acao ao input
         onChange={e => this.setState({repositoryInput: e.target.value})}
         
         />
