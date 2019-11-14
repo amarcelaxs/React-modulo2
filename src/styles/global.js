@@ -1,5 +1,7 @@
 import {createGlobalStyle} from 'styled-components';
-
+/*importando font awesome globalmente*/
+import 'font-awesome/css/font-awesome.css';
+ 
 const GlobalStyle = createGlobalStyle`
   * {
     margin:0;

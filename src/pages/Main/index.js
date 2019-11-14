@@ -12,6 +12,8 @@ import  CompareList from '../../components/CompareList';
 export default class Main extends Component {
   //state quando as mudanças reflitas no render
   state = {
+    //variaveis
+    loading:false,
     repositoryError: false,
     RepositoryInput:'',
     repositories: [],
@@ -20,7 +22,7 @@ export default class Main extends Component {
   handleAddRepository =async (e) => {
     //retira o carregamento de pagina depois de um submit
     e.preventDefault();
-
+    this.setState({loading:true});
 
     try {
 
@@ -33,19 +35,24 @@ export default class Main extends Component {
       this.setState({
         repositoryInput: '',
         repositories: [... this.state.repositories, repository],
-        repositoryError:false,
-       
+        repositoryError:false,        
       });
     }catch (err){
       //configurando o erro caso o repository não exista
       this.setState({repositoryError: true });
+    } finally{
+      //sendo executado mesmo se deu sucesso ou não
+        this.setState({loading:false});
     }
 
-  }
+  };
   render(){
     return(
       <Container>
       <img src={logo} alt="Github Compare" />
+
+      
+
       <Form withError={this.state.repositoryError} onSubmit={this.handleAddRepository}>
         <input 
         type="text" 
@@ -54,9 +61,11 @@ export default class Main extends Component {
         //linha 49 form passando propriedade de error props with error
        //evento no js disparado toda vez que tem acao ao input
         onChange={e => this.setState({repositoryInput: e.target.value})}
-        
+        //linha67 button if  com um icone de loading
         />
-        <button type="submit"  >OK</button>
+        
+        <button type="submit"  >{this.state.loading ? <i className="fa fa-spinner fa-pulse" /> : 'OK'}</button>
+        
       </Form>
       <CompareList repositories={this.state.repositories} />
     </Container>
