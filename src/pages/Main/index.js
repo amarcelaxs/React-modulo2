@@ -19,6 +19,7 @@ export default class Main extends Component {
     repositories: [],
   };
 
+
   handleAddRepository =async (e) => {
     //retira o carregamento de pagina depois de um submit
     e.preventDefault();
@@ -46,7 +47,30 @@ export default class Main extends Component {
     }
 
   };
+  
+  handleRemoveRepository = async (id) => {
+
+    const { repositories } = this.state;
+
+
+
+    const updatedRepositories = repositories.filter(repository => repository.id !== id);
+
+
+
+    this.setState({ repositories: updatedRepositories });
+
+
+
+    await localStorage.setItem('@GitCompare:repositories', JSON.stringify(updatedRepositories));
+
+  };
   render(){
+    const {
+
+      repositories, repositoryInput, repositoryError, loading,
+
+    } = this.state;
     return(
       <Container>
       <img src={logo} alt="Github Compare" />
@@ -67,7 +91,8 @@ export default class Main extends Component {
         <button type="submit"  >{this.state.loading ? <i className="fa fa-spinner fa-pulse" /> : 'OK'}</button>
         
       </Form>
-      <CompareList repositories={this.state.repositories} />
+      <CompareList repositories={this.state.repositories}
+       removeRepository={this.handleRemoveRepository} />
     </Container>
       );
   } 

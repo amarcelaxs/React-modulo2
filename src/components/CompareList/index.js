@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Container, Repository } from './styles';
 //foi instalando o pacote proptype e  axios
 //instalando o pacote momento para mudar a informação antes de chegar no handle
-const CompareList = ({repositories}) => (
+const CompareList = ({repositories, removeRepository,}) => (
   <Container>
     {repositories.map(repository => (
       <Repository key={repository.id}>
@@ -27,6 +27,17 @@ const CompareList = ({repositories}) => (
         {repository.lastCommit}<small>last commit</small>
         </li>
       </ul>
+      <div className="buttons-container">
+
+        <button type="button" onClick={() => removeRepository(repository.id)}>
+
+          <i className="fa fa-trash" />
+
+          Excluir
+
+        </button>
+
+      </div>
     </ Repository>
     ))}
     
